@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Main {
 
-    public static final double INF = 1000000000.0;
+    public static final double INF = 2000000000.0;
     public static class Pair<Integer> { // custom pair (vertex, distance) that compares based on distance
         int x;
         double d;
@@ -34,7 +34,6 @@ public class Main {
     };
 
     public static boolean dijkstra(int[] targets, int n, ArrayList<ArrayList<PairWithDelays>> tree, int t, double speed) {
-
         PriorityQueue<Pair> pq = new PriorityQueue<>(idComparator);
         double timePerSeg = 1/speed;
         pq.add(new Pair(0, 0));
@@ -61,7 +60,7 @@ public class Main {
 
         boolean works = true;
         for (int i = 0; i < targets.length; i++) {
-            if(dist[targets[i]] > t) {
+            if(dist[targets[i]] > (double)t) {
                 works = false;
             }
         }
@@ -71,7 +70,7 @@ public class Main {
 
     public static double binarySearchSpeed(double l, double r, int n, ArrayList<ArrayList<PairWithDelays>> g, int[] targets, int t){
         int times = 100;
-        while(times > 0) {
+        while(times >= 0) {
             double m = (l+r)/2;
             if(dijkstra(targets, n, g, t, m)) r = m;
             else l = m;
@@ -122,4 +121,3 @@ public class Main {
         }
     }
 }
-
