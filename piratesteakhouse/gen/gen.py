@@ -6,8 +6,11 @@ def largest_time():
   
   k, t = MAXN-1, 1
   res += "%d %d\n"%(k, t)
-  for i in range(2,k+1):
+  for i in range(2,MAXN):
     res += str(i)+" "
+
+  res = res.strip()
+  res += "\n"
   return res
 
 with open('../data/secret/004-secret4.in', 'w+') as fp:
