@@ -1,15 +1,11 @@
-\problemname{Simple Max}
+\problemname{The Angry Pirate Steakhouse}
 
-This simple task is to practice how to submit to online judge system.
-You will practice how to read problem input from stdin, and output the answer to stdout.
-
-You are given a list of integers.
-Just compute the maximum value among the numbers.
+The Angry Pirate Steakhouse (APS) restaurant dispatches $k$ meals to $k$ locations that are to be delivered by $k$ drivers. You are given a road system of the town (all roads are bidirectional), however, due to bad weather lots of roads are getting shut down. After the road is shut down drivers can no longer use it to get to their final destinations. A driver can use the road if they get to the end of it before or at the shut-down time. All roads have a distance of $1$ mile and connect two intersections (intersection in this context might also mean a dead end). Being a customer-friendly restaurant you guarantee to your customers that the food will be delivered within  $t$ minutes. But since the town is suffering from bad weather, in order to avoid accidents the drivers need to drive as slowly as possible. Help the restaurant manager to figure out what is the minimum speed that the drivers can drive at so that all the orders get delivered on time. All drivers will drive at the same speed and they always start at intersection $1$, where the restaurant is located. 
 
 \section*{Input}
-The first line has one integer $n$ ($1 \leq n \leq 100$), the length of the list.
-The second line has $n$ integers separated by single spaces, describing the numbers in the list.
-All numbers in the list do not exceed $100$ in their absolute values.
+The input has two integers on the first line, the number of intersections $n$ ($2 \leq n \leq 10^5$) and the number of roads in the town $m$ ($1 \leq m \leq 2\cdot10^5$). Each of the next $m$ lines contains three integers $x, y, d$ ($1 \leq x,y \leq n, x \neq y, 1 \leq d \leq 10^{9}$) and describes a road, where $x$ and $y$ represent the corresponding intersection numbers and $d$ is a delay time in minutes after which the road will be shut down. No pair of intersections is connected by more than one road (no parallel edges). If the road never shuts down, $d = -1$. 
+Next line has two integers $k$ ($1 \leq k \leq {n-1}$) and $t$ ($1 \leq t \leq 10^{9}$), where $t$ is given in minutes. All these $k$ delivery locations are distinct. None of them is 1.
+The last line contains $k$ integers, which specify the intersections that the food should be delivered to. All drivers start at time 0. 
 
 \section*{Output}
-Output a single integer, the maximum of all the integers in list.
+Output the smallest speed $s$ in miles per hour such that all the meals can be delivered to their destinations within the specified time $t$. Your answer is considered correct if it has an absolute or relative error of no more than $10^{-8}$ from the correct answer. If it is not possible to deliver all the foods output ``impossible".
