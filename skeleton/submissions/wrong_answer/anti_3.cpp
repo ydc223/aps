@@ -1,3 +1,13 @@
+/*
+ * This is a wrong answer solution. It is wrong answer because even though the logic of binary searching for the
+ * optimal speed is correct, the final result should be presented in miles per hour, not miles per minute and
+ * is therefore incorrect.
+ */
+
+//
+// Created by Robert Gordon on 12/8/18.
+//
+
 #include <iostream>
 #include <algorithm>
 #include <cstdlib>
@@ -16,13 +26,7 @@ using namespace std;
 #define rep(i,s,t) for(int i=s;i<t;i++)
 #define for_in(el, collection) for(auto el : collection)
 #define INF (int) 2e9-1
-#define MAXN ((int) 1e5+10)
-
-/*
- * This is a wrong answer solution. It is wrong answer because even though the logic of binary searching for the
- * optimal speed is correct, the final result should be presented in miles per hour, not miles per minute and
- * is therefore incorrect.
- */
+#define MAXN (int) 1e5+10
 
 struct Triple{
     int x, delay, dist;
@@ -32,10 +36,6 @@ struct Triple{
 
 typedef long long ll;
 typedef vector<int> vi;
-typedef pair<int,int> pii;
-typedef pair<pii,int> ppiii;
-typedef vector<ppiii> vppiii;
-typedef vector<vppiii> vvppiii;
 typedef vector<string> vs;
 typedef vector<vi> vvi;
 typedef vector<ll> vll;
@@ -47,13 +47,11 @@ int dist[MAXN];
 vi delivery_locations;
 vvT edges;
 
-
 bool dijkstra(int s, double speed, int T){
     priority_queue<Triple> pq;
 
     int n = (int) edges.size();
     fill_n(dist, n, INF);
-
     dist[s] = 0;
     pq.emplace(s, 0, 0);
 
@@ -66,33 +64,27 @@ bool dijkstra(int s, double speed, int T){
         int x = curr.x;
         for_in(neighbor, edges[x]) {
             double curr_time = (dist[x]+1)/speed;
-            if(dist[x]+1 < dist[neighbor.x] && (neighbor.delay == -1 || neighbor.delay > curr_time)) {
+            if(dist[x]+1 < dist[neighbor.x] && (neighbor.delay == -1 || neighbor.delay >= curr_time)) {
                 dist[neighbor.x] = dist[x]+1;
                 pq.emplace(neighbor.x, neighbor.delay, dist[neighbor.x]);
             }
         }
     }
 
-    bool possible = true;
-    rep(i,0,delivery_locations.size()){
-        double time = dist[delivery_locations[i]]/speed;
-        if (T < time) {
-            possible = false;
-            break;
-        }
+    for_in(loc, delivery_locations){
+        if (dist[loc] >= INF || dist[loc]/speed > T) return false;
     }
-
-    return possible;
+    return true;
 }
 
 double get_speed(double l, double r, int t){
-    double eps = 1e-6;
-    while(r-l > eps){
+    int times = 100;
+    while(times--){
         double mid = (l+r)/2;
         if(dijkstra(0, mid, t)) r = mid;
         else l = mid;
     }
-    return l;
+    return r;
 }
 
 void binary_solution() {
@@ -111,13 +103,17 @@ void binary_solution() {
     scanf("%d%d\n", &k, &t);
 
     delivery_locations = vi(k);
-    rep(i, 0, k) scanf("%d ", &delivery_locations[i]);
+    rep(i, 0, k) {
+        scanf("%d ", &delivery_locations[i]);
+        delivery_locations[i]--;
+    }
 
-    cout << get_speed(0, 1e6, t) << endl;
+    double s = get_speed(0,1e9+10,t);
+    if(dijkstra(0,s,t)) printf("%.8f\n", s);
+    else printf("impossible\n");
 }
 
 int main(){
-//    freopen("in.txt", "r", stdin);
     binary_solution();
     return 0;
 }
