@@ -20,6 +20,7 @@ using namespace std;
 #define rep(i,s,t) for(int i=s;i<t;i++)
 #define for_in(el, collection) for(auto el : collection)
 #define INF (int) 2e9-1
+#define D_INF 2e9
 #define MAXN ((int) 1e5+10)
 
 struct Triple{
@@ -30,10 +31,6 @@ struct Triple{
 
 typedef long long ll;
 typedef vector<int> vi;
-typedef pair<int,int> pii;
-typedef pair<pii,int> ppiii;
-typedef vector<ppiii> vppiii;
-typedef vector<vppiii> vvppiii;
 typedef vector<string> vs;
 typedef vector<vi> vvi;
 typedef vector<ll> vll;
@@ -42,9 +39,9 @@ typedef vector<Triple> vT;
 typedef vector<vT> vvT;
 
 int dist[MAXN];
+double sol_speed = D_INF;
 vi delivery_locations;
 vvT edges;
-
 
 bool dijkstra(int s, double speed, int T){
     priority_queue<Triple> pq;
@@ -64,23 +61,19 @@ bool dijkstra(int s, double speed, int T){
         int x = curr.x;
         for_in(neighbor, edges[x]) {
             double curr_time = (dist[x]+1)/speed;
-            if(dist[x]+1 < dist[neighbor.x] && (neighbor.delay == -1 || neighbor.delay > curr_time)) {
+            if(dist[x]+1 < dist[neighbor.x] && neighbor.delay > curr_time) {
                 dist[neighbor.x] = dist[x]+1;
                 pq.emplace(neighbor.x, neighbor.delay, dist[neighbor.x]);
             }
         }
     }
 
-    bool possible = true;
-    rep(i,0,delivery_locations.size()){
-        double time = dist[delivery_locations[i]]/speed;
-        if (T < time) {
-            possible = false;
-            break;
-        }
+    for_in(loc, delivery_locations){
+        if (dist[loc]/speed > T) return false;
     }
 
-    return possible;
+    sol_speed = min(sol_speed, speed);
+    return true;
 }
 
 double get_speed(double l, double r, int t){
@@ -104,8 +97,8 @@ void binary_solution() {
     rep(i, 0, m) {
         int x, y, d;
         scanf("%d%d%d\n", &x, &y, &d);
-        edges[x - 1].emplace_back(y - 1, d, INF);
-        edges[y - 1].emplace_back(x - 1, d, INF);
+        edges[x - 1].emplace_back(y - 1, d == -1 ? INF : d, INF);
+        edges[y - 1].emplace_back(x - 1, d == -1 ? INF : d, INF);
     }
 
     scanf("%d%d\n", &k, &t);
@@ -113,7 +106,9 @@ void binary_solution() {
     delivery_locations = vi(k);
     rep(i, 0, k) scanf("%d ", &delivery_locations[i]);
 
-    cout << get_speed(0, 1e6, t) * 60 << endl;
+    get_speed(0, 1e9, t);
+    if(D_INF - sol_speed > (1e-9)) printf("%.6f\n", sol_speed*60);
+    else printf("impossible\n");
 }
 
 int main(){
