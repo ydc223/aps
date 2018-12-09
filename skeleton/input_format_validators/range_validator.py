@@ -1,8 +1,10 @@
-import sys
+import sys, re
 # exit code 99 = bad input, 42 = good input
 def validate():
 
     line = sys.stdin.readline()
+    if re.match('^(0|-?[1-9]\d*)( (0|-?[1-9]\d*))$', line) == None: return 99 # invalid n
+
     # if last char before newline is a space (i.e. trailing spaces exist)
     if line[-2] == ' ': return 99
 
@@ -30,6 +32,8 @@ def validate():
 
     for i in range(0, m):
         line = sys.stdin.readline()
+        if re.match('^(0|-?[1-9]\d*)( (0|-?[1-9]\d*)){2}$', line) == None: return 99 # invalid n
+
         # if last char before newline is a space (i.e. trailing spaces exist)
         if line[-2] == ' ': return 99
         
@@ -62,6 +66,8 @@ def validate():
             if(d != -1): return 99
 
     line = sys.stdin.readline()
+    if re.match('^(0|-?[1-9]\d*)( (0|-?[1-9]\d*))$', line) == None: return 99 # invalid n
+
     # if last char before newline is a space (i.e. trailing spaces exist)
     if line[-2] == ' ': return 99
     
@@ -88,8 +94,11 @@ def validate():
     if(t < 1 or t > 1000000000): return 99
 
     line = sys.stdin.readline()
+    if re.match('^(0|-?[1-9]\d*)( (0|-?[1-9]\d*)){%d,%d}$' % (k-1, k-1), line) == None: return 99 # invalid n
+    
     # if last char before newline is a space (i.e. trailing spaces exist)
     if line[-1] == ' ': return 99
+    if line[-1] != '\n': return 99
     
     # check if line contains too many or too little spaces
     num_spaces = 0
@@ -113,6 +122,9 @@ def validate():
         if (int(destinations[i]) in d_map) or (int(destinations[i]) == 1) or (int(destinations[i]) > n or int(destinations[i]) < 1): return 99
         d_map[int(destinations[i])] = int(destinations[i])
     
+    line = sys.stdin.readline()
+    if line != '': return 99
+
     return 42
 
 if __name__ == "__main__":
