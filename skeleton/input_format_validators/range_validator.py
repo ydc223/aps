@@ -122,7 +122,8 @@ def validate():
         if (int(destinations[i]) in d_map) or (int(destinations[i]) == 1) or (int(destinations[i]) > n or int(destinations[i]) < 1): return 99
         d_map[int(destinations[i])] = int(destinations[i])
     
-    if sys.stdin.isatty(): return 99
+    line = sys.stdin.readline()
+    if line != '': return 99
 
     return 42
 
