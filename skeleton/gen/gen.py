@@ -1,14 +1,15 @@
-# This is an example generator that generates n random integers.
-# You may write a wrapper script that calls random_case with different arguments,
-# and directs its output to multiple .in files.
-
-import random
-
-MAX_VAL = 100
-
-def random_case(n):
-  res = '%d\n' % n
-  res += ''.join([random.randint(-MAX_VAL, MAX_VAL) for _ in range(n)]) + '\n'
-  return res
+def largest_time():
+  MAXN = int(10e5)
+  res = ""
+  for i in range(1,MAXN):
+    res += '%d %d %d\n'%(i,i+1, MAXN-i)
   
-print random_case(5)
+  k, t = MAXN-1, 1
+  res += "%d %d\n"%(k, t)
+  for i in range(2,k+1):
+    res += str(i)+" "
+  res += "\n"
+  return res
+
+with open('../data/secret/004-secret4.in', 'w+') as fp:
+  fp.write(largest_time())
