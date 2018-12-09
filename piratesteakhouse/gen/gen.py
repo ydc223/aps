@@ -6,7 +6,7 @@ def largest_time():
   
   k, t = MAXN-1, 1
   res += "%d %d\n"%(k, t)
-  for i in range(2,MAXN):
+  for i in range(2,MAXN+1):
     res += str(i)+" "
 
   res = res.strip()
