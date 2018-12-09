@@ -1,5 +1,5 @@
 def largest_time():
-  MAXN = int(10e5)
+  MAXN = int(1e5)
   res = "%d %d\n"%(MAXN, MAXN-1)
   for i in range(1,MAXN):
     res += '%d %d %d\n'%(i,i+1, MAXN-i)
