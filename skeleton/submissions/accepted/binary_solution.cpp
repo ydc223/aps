@@ -20,8 +20,7 @@ using namespace std;
 #define rep(i,s,t) for(int i=s;i<t;i++)
 #define for_in(el, collection) for(auto el : collection)
 #define INF (int) 2e9-1
-#define D_INF 2e9
-#define MAXN ((int) 1e5+10)
+#define MAXN (int) 1e5+10
 
 struct Triple{
     int x, delay, dist;
@@ -39,7 +38,6 @@ typedef vector<Triple> vT;
 typedef vector<vT> vvT;
 
 int dist[MAXN];
-double sol_speed = D_INF;
 vi delivery_locations;
 vvT edges;
 
@@ -48,7 +46,6 @@ bool dijkstra(int s, double speed, int T){
 
     int n = (int) edges.size();
     fill_n(dist, n, INF);
-
     dist[s] = 0;
     pq.emplace(s, 0, 0);
 
@@ -61,7 +58,7 @@ bool dijkstra(int s, double speed, int T){
         int x = curr.x;
         for_in(neighbor, edges[x]) {
             double curr_time = (dist[x]+1)/speed;
-            if(dist[x]+1 < dist[neighbor.x] && neighbor.delay > curr_time) {
+            if(dist[x]+1 < dist[neighbor.x] && neighbor.delay >= curr_time) {
                 dist[neighbor.x] = dist[x]+1;
                 pq.emplace(neighbor.x, neighbor.delay, dist[neighbor.x]);
             }
@@ -69,10 +66,8 @@ bool dijkstra(int s, double speed, int T){
     }
 
     for_in(loc, delivery_locations){
-        if (dist[loc]/speed > T) return false;
+        if (dist[loc] >= INF || dist[loc]/speed > T) return false;
     }
-
-    sol_speed = min(sol_speed, speed);
     return true;
 }
 
@@ -83,12 +78,10 @@ double get_speed(double l, double r, int t){
         if(dijkstra(0, mid, t)) r = mid;
         else l = mid;
     }
-    return l;
+    return r;
 }
 
 void binary_solution() {
-    // freopen("angry_pirate_steakhouse_input01.txt", "r", stdin);
-
     int n, m, k, t;
     scanf("%d%d\n", &n, &m);
 
@@ -104,10 +97,13 @@ void binary_solution() {
     scanf("%d%d\n", &k, &t);
 
     delivery_locations = vi(k);
-    rep(i, 0, k) scanf("%d ", &delivery_locations[i]);
+    rep(i, 0, k) {
+        scanf("%d ", &delivery_locations[i]);
+        delivery_locations[i]--;
+    }
 
-    get_speed(0, 1e9, t);
-    if(D_INF - sol_speed > (1e-9)) printf("%.6f\n", sol_speed*60);
+    double s = get_speed(0,1e9,t);
+    if(dijkstra(0,s,t)) printf("%.6f\n", s*60);
     else printf("impossible\n");
 }
 
