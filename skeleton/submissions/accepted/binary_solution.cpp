@@ -94,7 +94,7 @@ double get_speed(double l, double r, int t){
 }
 
 void binary_solution() {
-    freopen("angry_pirate_steakhouse_input01.txt", "r", stdin);
+    // freopen("angry_pirate_steakhouse_input01.txt", "r", stdin);
 
     int n, m, k, t;
     scanf("%d%d\n", &n, &m);
