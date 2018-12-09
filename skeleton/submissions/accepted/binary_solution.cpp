@@ -58,7 +58,7 @@ bool dijkstra(int s, double speed, int T){
         int x = curr.x;
         for_in(neighbor, edges[x]) {
             double curr_time = (dist[x]+1)/speed;
-            if(dist[x]+1 < dist[neighbor.x] && neighbor.delay >= curr_time) {
+            if(dist[x]+1 < dist[neighbor.x] && (neighbor.delay == -1 || neighbor.delay >= curr_time)) {
                 dist[neighbor.x] = dist[x]+1;
                 pq.emplace(neighbor.x, neighbor.delay, dist[neighbor.x]);
             }
@@ -72,8 +72,8 @@ bool dijkstra(int s, double speed, int T){
 }
 
 double get_speed(double l, double r, int t){
-    double eps = 1e-6;
-    while(r-l > eps){
+    int times = 100;
+    while(times--){
         double mid = (l+r)/2;
         if(dijkstra(0, mid, t)) r = mid;
         else l = mid;
@@ -90,8 +90,8 @@ void binary_solution() {
     rep(i, 0, m) {
         int x, y, d;
         scanf("%d%d%d\n", &x, &y, &d);
-        edges[x - 1].emplace_back(y - 1, d == -1 ? INF : d, INF);
-        edges[y - 1].emplace_back(x - 1, d == -1 ? INF : d, INF);
+        edges[x - 1].emplace_back(y - 1, d, INF);
+        edges[y - 1].emplace_back(x - 1, d, INF);
     }
 
     scanf("%d%d\n", &k, &t);
@@ -102,8 +102,8 @@ void binary_solution() {
         delivery_locations[i]--;
     }
 
-    double s = get_speed(0,1e9,t);
-    if(dijkstra(0,s,t)) printf("%.6f\n", s*60);
+    double s = get_speed(0,1e9+10,t);
+    if(dijkstra(0,s,t)) printf("%.8f\n", s*60);
     else printf("impossible\n");
 }
 
