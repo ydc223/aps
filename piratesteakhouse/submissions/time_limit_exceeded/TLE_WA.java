@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class TLE {
+public class TLE_WA {
     public static final int INF_INT = 2000000000;
     public static class Pair<Integer> { // custom pair (vertex, distance) that compares based on distance
         int x;
