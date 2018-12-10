@@ -1,9 +1,13 @@
 import random
 
 MAXN = int(1e5)
-def largest_time(delay, time):
-  res = "%d %d\n"%(MAXN, MAXN-1)
+def largest_time(delay, time, disconnect):
+  m = MAXN-1
+  if disconnect:
+    m = m-1
+  res = "%d %d\n"%(MAXN, m)
   for i in range(1,MAXN):
+    if disconnect and i == MAXN-1: break
     if (delay == -1):
       res += '%d %d %d\n'%(i,i+1, -1)
     else:
@@ -20,12 +24,15 @@ def largest_time(delay, time):
 
 def gen_largest():
   with open('../data/secret/001-secret1.in', 'w+') as fp:
-    fp.write(largest_time(0, 1))
+    fp.write(largest_time(0, 1, False))
 
 def gen_largest_delay():
   with open("../data/secret/006-secret6.in", "w+") as fp:
-    fp.write(largest_time(-1, 1e9))
+    fp.write(largest_time(-1, 1e9, False))
 
+def gen_chain_disconnect():
+  with open("../data/secret/010-secret10.in", "w+") as fp:
+    fp.write(largest_time(-1, 1e9, True))
 
 def random_cases(connected):
   n = random.randint(2e4, MAXN+1)
@@ -70,7 +77,8 @@ def gen_random_cases(file, connected=True):
 
 # gen_largest()
 # gen_largest_delay()
-gen_random_cases('../data/secret/007-secret7.in')
-gen_random_cases('../data/secret/008-secret8.in')
+# gen_random_cases('../data/secret/007-secret7.in')
+# gen_random_cases('../data/secret/008-secret8.in')
+gen_chain_disconnect()
 
 
