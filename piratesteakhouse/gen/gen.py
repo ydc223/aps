@@ -17,7 +17,7 @@ def largest_time(delay, time):
   return res
 
 def gen_largest():
-  with open('../data/secret/004-secret4.in', 'w+') as fp:
+  with open('../data/secret/001-secret1.in', 'w+') as fp:
     fp.write(largest_time(0, 1))
 
 def gen_largest_delay():
