@@ -75,10 +75,10 @@ def gen_random_cases(file, connected=True):
   with open(file, 'w+') as fp:
     fp.write(random_cases(connected))
 
-# gen_largest()
-# gen_largest_delay()
-# gen_random_cases('../data/secret/007-secret7.in')
-# gen_random_cases('../data/secret/008-secret8.in')
+gen_largest()
+gen_largest_delay()
+gen_random_cases('../data/secret/007-secret7.in')
+gen_random_cases('../data/secret/008-secret8.in')
 gen_chain_disconnect()
 
 
