@@ -27,7 +27,7 @@ def gen_largest_delay():
     fp.write(largest_time(-1, 1e9))
 
 
-def random_cases_connected():
+def random_cases(connected):
   n = random.randint(2e4, MAXN+1)
   all_vertices = set(i for i in range(2, n+1))
   used_vertices = set()
@@ -38,8 +38,9 @@ def random_cases_connected():
     end_vertex = random.sample(all_vertices, 1)[0]
     if end_vertex in used_vertices or end_vertex == random_vertex: 
       continue
+    if m > 2*MAXN: 
+      break
     m += 1
-    if m > 2*MAXN: break
     rand_delay = random.randint(1,1e9)
     rand_chance = random.random()
     if rand_chance < 0.5:
@@ -52,8 +53,8 @@ def random_cases_connected():
   output = "%d %d\n"%(n, m)
   output += res
 
-  k = random.randint(1,n)
-  t = random.randint(1,1e9+1)
+  k = random.randint(1,n-1)
+  t = random.randint(1,1e9)
   output += "%d %d\n"%(k, t)
   vertices = list(used_vertices)
   for i in random.sample(vertices, k):
@@ -63,12 +64,13 @@ def random_cases_connected():
   return output
 
 
-def gen_random_cases():
-  with open('../data/secret/007-secret7.in', 'w+') as fp:
-    fp.write(random_cases_connected())
+def gen_random_cases(file, connected=True):
+  with open(file, 'w+') as fp:
+    fp.write(random_cases(connected))
 
-gen_largest()
-gen_largest_delay()
-gen_random_cases()
+# gen_largest()
+# gen_largest_delay()
+gen_random_cases('../data/secret/007-secret7.in')
+gen_random_cases('../data/secret/008-secret8.in')
 
 
